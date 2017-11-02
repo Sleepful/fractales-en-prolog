@@ -24,8 +24,13 @@
         Para invocar los métodos hacerlo así:
         nombremetodo_letra(niveles,tamaño).
         - donde letra puede ser ‘M‘, ‘S‘, ‘C‘.
-        - Recomendable: nivel menor a 5
-        - Recomendable: tamaño menor a 600
+        - Recomendable: nivel menor a 5.
+        - Recomendable: tamaño menor a 600.
+        - Nota: Se han incluido imagenes de los
+          no orginales en un folder al igual que
+          imagenes de los originales.
+        - Nota: Se incluye la base de los originales
+          y tambien los originales para el concurso.
 
 
                           |-------------------------------|
@@ -34,14 +39,14 @@
     | el copo de nieve    | ✔ | ✔ | ✔ |  copodenieve      |
     | el tapete externo   | ✔ | ✔ | ✔ |  tapeteExterno    |
     | el tapete interno   | ✔ | ✔ | ✔ |  tapeteInterno    |
-    | aros                |   |   |   |                   |
+    | aros                | ✔ | ✔ | ✔ |  aros             |
     | corbatín            | ✔ | ✔ | ✔ |  corbatin         |
     | panal               | ✔ | ✔ | ✔ |  panal            |
-    | tonel               |   |   |   |                   |
+    | tonel               | ✔ | ✔ | ✔ |  tonel            |
     | estrella            | ✔ | ✔ | ✔ |  estrella         |
-    | original1           |   |   |   |                   |
-    | original2           |   |   |   |                   |
-    | original3           |   |   |   |                   |
+    | original1           | ✔ | ✔ | ✔ |  original1        |
+    | original2           | ✔ | ✔ | ✔ |  original2        |
+    | original3           | ✔ | ✔ | ✔ |  original3        |
     |-----------------------------------------------------|
 
 
@@ -49,7 +54,7 @@
                   |  Manual de usuario  |
                   |---------------------|
 
-    Se ha desarrollado el código swi-prolog para linux,
+    Se ha desarrollado el código en swi-prolog para linux,
     es necesario tener instalado este programa para ejecutar
     el código.
 
@@ -93,10 +98,25 @@
       ?- tapeteExterno_S(4,300).
       ?- tapeteExterno_C(3,300).
 
-      ?- .
-      ?- .
-      ?- .
+      ?- tonel_M(3,300).
+      ?- tonel_S(3,300).
+      ?- tonel_C(4,300).
 
+      ?- aros_M(4,100).
+      ?- aros_S(5,40).
+      ?- aros_C(6,40).
+
+      ?- original1_M(4,600).
+      ?- original1_S(4,600).
+      ?- original1_C(4,600).
+
+      ?- original2_M(4,40).
+      ?- original2_S(4,40).
+      ?- original2_C(4,40).
+
+      ?- original6_M(6,600).
+      ?- original6_S(6,600).
+      ?- original6_C(6,600).
 */
 
 
@@ -773,33 +793,239 @@ tapeteExterno_C(Lvl,Tam):-
     hideturtle().
 /*_____________________________________________________*/
 
-tonelAux(0,Tam):-
-    circle(Tam).
+tonelAux(0,Tam,_,_):-
+    pendown,
+    circle(Tam),
+    penup.
 
 
-tonelAux(N,Tam):-
-    Lvl is N-1,
-    Rad is Tam/3.
+tonelAux(N,Tam,X,Y):-
+    tonelAux(0,Tam,_,_),
+    Radian is 2.0944,
+    Lvl    is N-1,
+    Rad    is (-3+(2*sqrt(3)))*Tam,
+    Move   is Tam-Rad,
+    X1     is X+Move,
+    Y1     is Y,
+    X2     is X+(Move)*cos(Radian),
+    Y2     is Y+(Move)*sin(Radian),
+    X3     is X+(Move)*cos(Radian*2),
+    Y3     is Y+(Move)*sin(Radian*2),
+    setxy(X1,Y1),
+    tonelAux(0,Rad,_,_),
+    tonelAux(Lvl,Rad,X1,Y1),
+    setxy(X2,Y2),
+    tonelAux(0,Rad,_,_),
+    tonelAux(Lvl,Rad,X2,Y2),
+    setxy(X3,Y3),
+    tonelAux(0,Rad,_,_),
+    tonelAux(Lvl,Rad,X3,Y3).
 
 
 tonel_M(Lvl,Tam):-
+    Y is (-(Tam)),
+    X is (Tam),
     logo,setpencolor(white), setbgcolor(black),
-    tonelAux(Lvl,Tam).
+    penup, setxy(X,Y),
+    tonelAux(Lvl,Tam,X,Y),
+    hideturtle().
 
 
 
 /*.......................*/
+
+tonelAux_S(0,Tam,_,_):-
+    pendown,
+    circle(Tam),
+    penup.
+
+
+tonelAux_S(N,Tam,X,Y):-
+    tonelAux_S(0,Tam,_,_),
+    Radian is 2.0944,
+    Lvl    is N-1,
+    Rad    is (-3+(2*sqrt(3)))*Tam,
+    Move   is Tam-Rad,
+    X1     is X+Move,
+    Y1     is Y,
+    X2     is X+(Move)*cos(Radian),
+    Y2     is Y+(Move)*sin(Radian),
+    X3     is X+(Move)*cos(Radian*2),
+    Y3     is Y+(Move)*sin(Radian*2),
+    setxy(X1,Y1),
+    setpencolor(cyan),
+    tonelAux_S(0,Rad,_,_),
+    tonelAux_S(Lvl,Rad,X1,Y1),
+    setxy(X2,Y2),
+    setpencolor(white),
+    tonelAux_S(0,Rad,_,_),
+    tonelAux_S(Lvl,Rad,X2,Y2),
+    setxy(X3,Y3),
+    setpencolor(green),
+    tonelAux_S(0,Rad,_,_),
+    tonelAux_S(Lvl,Rad,X3,Y3).
+
+
+tonel_S(Lvl,Tam):-
+    Y is (-(Tam)),
+    X is (Tam),
+    logo,setpencolor(white), setbgcolor(black),
+    penup, setxy(X,Y),
+    tonelAux_S(Lvl,Tam,X,Y),
+    hideturtle().
 /*.......................*/
+tonelAux_C(0,Tam,_,_):-
+    pendown,
+    random(1,7,Rand2),
+    colore(Rand2,Nomb2),
+    setpencolor(Nomb2),
+    circle(Tam),
+    penup.
+
+
+tonelAux_C(N,Tam,X,Y):-
+    tonelAux_C(0,Tam,_,_),
+    Radian is 2.0944,
+    Lvl    is N-1,
+    Rad    is (-3+(2*sqrt(3)))*Tam,
+    Move   is Tam-Rad,
+    X1     is X+Move,
+    Y1     is Y,
+    X2     is X+(Move)*cos(Radian),
+    Y2     is Y+(Move)*sin(Radian),
+    X3     is X+(Move)*cos(Radian*2),
+    Y3     is Y+(Move)*sin(Radian*2),
+    setxy(X1,Y1),
+    tonelAux_C(0,Rad,_,_),
+    tonelAux_C(Lvl,Rad,X1,Y1),
+    setxy(X2,Y2),
+    tonelAux_C(0,Rad,_,_),
+    tonelAux_C(Lvl,Rad,X2,Y2),
+    setxy(X3,Y3),
+    tonelAux_C(0,Rad,_,_),
+    tonelAux_C(Lvl,Rad,X3,Y3).
+
+
+tonel_C(Lvl,Tam):-
+    Y is (-(Tam)),
+    X is (Tam),
+    logo,setpencolor(white), setbgcolor(black),
+    penup, setxy(X,Y),
+    tonelAux_C(Lvl,Tam,X,Y),
+    hideturtle().
+
+/*_____________________________________________________*/
+arosAux_M(0,Tam,_,_):-
+    pendown,
+    circle(Tam),
+    penup.
+
+
+arosAux_M(N,Tam,X,Y):-
+    Radian is 2.0944,
+    Lvl    is N-1,
+    Rad    is Tam,
+    Move   is Rad-(Rad/5),
+    X1     is X+Move,
+    Y1     is Y,
+    X2     is X+(Move)*cos(Radian),
+    Y2     is Y+(Move)*sin(Radian),
+    X3     is X+(Move)*cos(Radian*2),
+    Y3     is Y+(Move)*sin(Radian*2),
+    setxy(X1,Y1),
+    arosAux_M(Lvl,Rad,X1,Y1),
+    setxy(X2,Y2),
+    arosAux_M(Lvl,Rad,X2,Y2),
+    setxy(X3,Y3),
+    arosAux_M(Lvl,Rad,X3,Y3).
+
+aros_M(Lvl,Tam):-
+    Y is (-(Tam*Lvl)),
+    X is (Tam),
+    logo,setpencolor(white), setbgcolor(black),
+    penup, setxy(X,Y),
+    arosAux_M(Lvl,Tam,X,Y),
+    hideturtle().
+/*.......................*/
+arosAux_S(0,Tam,_,_):-
+    pendown,
+    circle(Tam),
+    penup.
+
+
+arosAux_S(N,Tam,X,Y):-
+    Radian is 2.0944,
+    Lvl    is N-1,
+    Rad    is Tam,
+    Move   is Rad-(Rad/5),
+    X1     is X+Move,
+    Y1     is Y,
+    X2     is X+(Move)*cos(Radian),
+    Y2     is Y+(Move)*sin(Radian),
+    X3     is X+(Move)*cos(Radian*2),
+    Y3     is Y+(Move)*sin(Radian*2),
+    setpencolor(blue),
+    setxy(X1,Y1),
+    arosAux_S(Lvl,Rad,X1,Y1),
+    setpencolor(white),
+    setxy(X2,Y2),
+    arosAux_S(Lvl,Rad,X2,Y2),
+    setpencolor(green),
+    setxy(X3,Y3),
+    arosAux_S(Lvl,Rad,X3,Y3).
+
+aros_S(Lvl,Tam):-
+    Y is (-(Tam*Lvl)),
+    X is (Tam),
+    logo,setpencolor(white), setbgcolor(black),
+    penup, setxy(X,Y),
+    arosAux_S(Lvl,Tam,X,Y),
+    hideturtle().
+/*.......................*/
+arosAux_C(0,Tam,_,_):-
+    pendown,
+    random(1,7,Rand2),
+    colore(Rand2,Nomb2),
+    setpencolor(Nomb2),
+    circle(Tam),
+    penup.
+
+
+arosAux_C(N,Tam,X,Y):-
+    Radian is 2.0944,
+    Lvl    is N-1,
+    Rad    is Tam,
+    Move   is Rad-(Rad/5),
+    X1     is X+Move,
+    Y1     is Y,
+    X2     is X+(Move)*cos(Radian),
+    Y2     is Y+(Move)*sin(Radian),
+    X3     is X+(Move)*cos(Radian*2),
+    Y3     is Y+(Move)*sin(Radian*2),
+    setxy(X1,Y1),
+    arosAux_C(Lvl,Rad,X1,Y1),
+    setxy(X2,Y2),
+    arosAux_C(Lvl,Rad,X2,Y2),
+    setxy(X3,Y3),
+    arosAux_C(Lvl,Rad,X3,Y3).
+
+aros_C(Lvl,Tam):-
+    Y is (-(Tam*Lvl)),
+    X is (Tam),
+    logo,setpencolor(white), setbgcolor(black),
+    penup, setxy(X,Y),
+    arosAux_C(Lvl,Tam,X,Y),
+    hideturtle().
 /*_____________________________________________________*/
 
 circle(R):-
     get(@myturtle_class,x,X),
     get(@myturtle_class,y,Y),
-    circle(_,_,R,X,Y,0,2*pi/20),
+    circle(_,_,R,X,Y,0,2*pi/60),
     penup,
     setxy(X,Y),
     pendown.
-circle(_,_,_,_,_,X,_):- 
+circle(_,_,_,_,_,X,_):-
     Lim is 2*pi,
     X>Lim,!.
 circle(X,Y,R,H,K,0,Step):-
@@ -808,18 +1034,716 @@ circle(X,Y,R,H,K,0,Step):-
     penup,
     setxy(X,Y),
     pendown,
-    ThetaAux is Step,
-    circle(_,_,R,H,K,ThetaAux,Step).
-circle(X,Y,R,H,K,Theta,Step):-
-    X is H + R * cos(Theta),
-    Y is K+R*sin(Theta),
+    AlphaAux is Step,
+    circle(_,_,R,H,K,AlphaAux,Step).
+circle(X,Y,R,H,K,Alpha,Step):-
+    X is H + R * cos(Alpha),
+    Y is K+R*sin(Alpha),
     setxy(X,Y),
-    ThetaAux is Theta+Step,
-    circle(_,_,R,H,K,ThetaAux,Step).
+    AlphaAux is Alpha+Step,
+    circle(_,_,R,H,K,AlphaAux,Step).
 
 
 /*_____________________________________________________*/
 
+original1Aux_M(0,Tam):-
+    pendown,
+    forward(Tam),
+    penup.
+
+original1Aux_M(N,Tam):-
+    Lvl is N-1,
+    Seg is Tam/2,
+    get(@myturtle_class,x,X),
+    get(@myturtle_class,y,Y),
+    original1Aux_M(0,Seg),
+    left(30),
+    original1Aux_M(Lvl,Seg),
+    setxy(X,Y),
+    left(30),
+    original1Aux_M(Lvl,Seg),
+    setxy(X,Y),
+    right(90),
+    right(30),
+    original1Aux_M(Lvl,Seg),
+    setxy(X,Y),
+    right(30),
+    original1Aux_M(Lvl,Seg),
+    setxy(X,Y),
+    left(90).
+
+original1_M(Lvl,Tam):-
+    Ys is (-(Tam)/3),
+    Xs is (Tam),
+    logo,setpencolor(white), setbgcolor(black),
+    penup, setxy(Xs,Ys),
+    get(@myturtle_class,x,X),
+    get(@myturtle_class,y,Y),
+    left(90),
+    original1Aux_M(Lvl,Tam),
+    left(180),
+    setxy(X,Y),
+    original1Aux_M(Lvl,Tam),
+    hideturtle().
+
+/*.......................*/
+
+original1Aux_S(0,Tam):-
+    pendown,
+    forward(Tam),
+    penup.
+
+original1Aux_S(N,Tam):-
+    Lvl is N-1,
+    Seg is Tam/2,
+    get(@myturtle_class,x,X),
+    get(@myturtle_class,y,Y),
+    setpencolor(green),
+    original1Aux_S(0,Seg),
+    left(30),
+    setpencolor(cyan),
+    original1Aux_S(Lvl,Seg),
+    setxy(X,Y),
+    left(30),
+    setpencolor(green),
+    original1Aux_S(Lvl,Seg),
+    setxy(X,Y),
+    right(90),
+    right(30),
+    setpencolor(cyan),
+    original1Aux_S(Lvl,Seg),
+    setxy(X,Y),
+    right(30),
+    setpencolor(green),
+    original1Aux_S(Lvl,Seg),
+    setxy(X,Y),
+    left(90).
+
+original1_S(Lvl,Tam):-
+    Ys is (-(Tam)/3),
+    Xs is (Tam),
+    logo,setpencolor(white), setbgcolor(black),
+    penup, setxy(Xs,Ys),
+    get(@myturtle_class,x,X),
+    get(@myturtle_class,y,Y),
+    left(90),
+    original1Aux_S(Lvl,Tam),
+    left(180),
+    setxy(X,Y),
+    original1Aux_S(Lvl,Tam),
+    hideturtle().
+
+
+/*.......................*/
+
+
+original1Aux_C(0,Tam):-
+    pendown,
+    random(1,7,Rand2),
+    colore(Rand2,Nomb2),
+    setpencolor(Nomb2),
+    forward(Tam),
+    penup.
+
+original1Aux_C(N,Tam):-
+    Lvl is N-1,
+    Seg is Tam/2,
+    get(@myturtle_class,x,X),
+    get(@myturtle_class,y,Y),
+    setpencolor(green),
+    original1Aux_C(0,Seg),
+    left(30),
+    setpencolor(cyan),
+    original1Aux_C(Lvl,Seg),
+    setxy(X,Y),
+    left(30),
+    setpencolor(green),
+    original1Aux_C(Lvl,Seg),
+    setxy(X,Y),
+    right(90),
+    right(30),
+    setpencolor(cyan),
+    original1Aux_C(Lvl,Seg),
+    setxy(X,Y),
+    right(30),
+    setpencolor(green),
+    original1Aux_C(Lvl,Seg),
+    setxy(X,Y),
+    left(90).
+
+original1_C(Lvl,Tam):-
+    Ys is (-(Tam)/3),
+    Xs is (Tam),
+    logo,setpencolor(white), setbgcolor(black),
+    penup, setxy(Xs,Ys),
+    get(@myturtle_class,x,X),
+    get(@myturtle_class,y,Y),
+    left(90),
+    original1Aux_C(Lvl,Tam),
+    left(180),
+    setxy(X,Y),
+    original1Aux_C(Lvl,Tam),
+    hideturtle().
+
+/*_____________________________________________________*/
+
+
+original2Aux_M(0,Tam):-
+    pendown,
+    forward(Tam),
+    penup.
+
+original2Aux_M(0,_,_,_).
+
+original2Aux_M(N,Tam,X,Y):-
+    Seg1     is Tam,
+    Seg2    is Tam/2,
+    Rad120  is 2.0944,
+    Rad90   is 1.5708,
+    X1      is X+(Seg2+Seg1)*cos(Rad90),
+    Y1      is Y+(Seg2+Seg1)*sin(Rad90),
+    X2      is X+(Seg2+Seg1)*cos(Rad90+Rad120),
+    Y2      is Y+(Seg2+Seg1)*sin(Rad90+Rad120),
+    X3      is X+(Seg2+Seg1)*cos(Rad90+Rad120*2),
+    Y3      is Y+(Seg2+Seg1)*sin(Rad90+Rad120*2),
+
+
+    setxy(X1,Y1),
+    original2Aux_M(N,Tam),
+
+    setxy(X2,Y2),
+    original2Aux_M(N,Tam),
+
+    setxy(X3,Y3),
+    original2Aux_M(N,Tam)
+    .
+
+
+original2Aux_M(N,Tam):-
+    Lvl    is N-1,
+    Seg    is Tam,
+    Seg2   is Tam/2,
+
+    get(@myturtle_class,x,X),
+    get(@myturtle_class,y,Y),
+
+
+    original2Aux_M(0,Seg),
+    get(@myturtle_class,x,X_1),
+    get(@myturtle_class,y,Y_1),
+    left(120),
+    original2Aux_M(0,Seg2),
+    setxy(X_1,Y_1),
+    left(120),
+    original2Aux_M(0,Seg2),
+
+    setxy(X,Y),
+
+    original2Aux_M(0,Seg),
+    get(@myturtle_class,x,X_2),
+    get(@myturtle_class,y,Y_2),
+    left(120),
+    original2Aux_M(0,Seg2),
+    setxy(X_2,Y_2),
+    left(120),
+    original2Aux_M(0,Seg2),
+
+    setxy(X,Y),
+
+    original2Aux_M(0,Seg),
+    get(@myturtle_class,x,X_3),
+    get(@myturtle_class,y,Y_3),
+    left(120),
+    original2Aux_M(0,Seg2),
+    setxy(X_3,Y_3),
+    left(120),
+    original2Aux_M(0,Seg2),
+
+    original2Aux_M(Lvl,Seg,X,Y)
+    .
+
+original2_M(Lvl,Tam):-
+    Ys is (-(Tam*(Lvl+1))),
+    Xs is (Tam),
+    logo,setpencolor(white), setbgcolor(black),
+    penup, setxy(Xs,Ys),
+    original2Aux_M(Lvl,Tam),
+    hideturtle().
+/*.......................*/
+
+original2Aux_S(0,Tam):-
+    pendown,
+    forward(Tam),
+    penup.
+
+original2Aux_S(0,_,_,_).
+
+original2Aux_S(N,Tam,X,Y):-
+    Seg1     is Tam,
+    Seg2    is Tam/2,
+    Rad120  is 2.0944,
+    Rad90   is 1.5708,
+    X1      is X+(Seg2+Seg1)*cos(Rad90),
+    Y1      is Y+(Seg2+Seg1)*sin(Rad90),
+    X2      is X+(Seg2+Seg1)*cos(Rad90+Rad120),
+    Y2      is Y+(Seg2+Seg1)*sin(Rad90+Rad120),
+    X3      is X+(Seg2+Seg1)*cos(Rad90+Rad120*2),
+    Y3      is Y+(Seg2+Seg1)*sin(Rad90+Rad120*2),
+
+
+    setxy(X1,Y1),
+    original2Aux_S(N,Tam),
+
+    setxy(X2,Y2),
+    original2Aux_S(N,Tam),
+
+    setxy(X3,Y3),
+    original2Aux_S(N,Tam)
+    .
+
+original2Aux_S(N,Tam):-
+    Lvl    is N-1,
+    Seg    is Tam,
+    Seg2   is Tam/2,
+
+    get(@myturtle_class,x,X),
+    get(@myturtle_class,y,Y),
+
+
+    setpencolor(cyan),
+    original2Aux_S(0,Seg),
+    get(@myturtle_class,x,X_1),
+    get(@myturtle_class,y,Y_1),
+
+    setpencolor(blue),
+    left(120),
+    original2Aux_S(0,Seg2),
+    setxy(X_1,Y_1),
+    setpencolor(cyan),
+    left(120),
+    original2Aux_S(0,Seg2),
+
+    setxy(X,Y),
+
+    setpencolor(cyan),
+    original2Aux_S(0,Seg),
+    get(@myturtle_class,x,X_2),
+    get(@myturtle_class,y,Y_2),
+    left(120),
+
+    original2Aux_S(0,Seg2),
+    setxy(X_2,Y_2),
+    setpencolor(blue),
+    left(120),
+    original2Aux_S(0,Seg2),
+
+    setxy(X,Y),
+
+    setpencolor(blue),
+    original2Aux_S(0,Seg),
+    get(@myturtle_class,x,X_3),
+    get(@myturtle_class,y,Y_3),
+    left(120),
+
+    setpencolor(cyan),
+    original2Aux_S(0,Seg2),
+    setxy(X_3,Y_3),
+    left(120),
+    original2Aux_S(0,Seg2),
+
+    original2Aux_S(Lvl,Seg,X,Y)
+    .
+
+
+original2_S(Lvl,Tam):-
+    Ys is (-(Tam*(Lvl+1))),
+    Xs is (Tam),
+    logo,setpencolor(white), setbgcolor(black),
+    penup, setxy(Xs,Ys),
+    original2Aux_S(Lvl,Tam),
+    hideturtle().
+
+/*.......................*/
+
+original2Aux_C(0,Tam):-
+    pendown,
+    random(1,7,Rand2),
+    colore(Rand2,Nomb2),
+    setpencolor(Nomb2),
+    forward(Tam),
+    penup.
+
+original2Aux_C(0,_,_,_).
+
+original2Aux_C(N,Tam,X,Y):-
+    Seg1     is Tam,
+    Seg2    is Tam/2,
+    Rad120  is 2.0944,
+    Rad90   is 1.5708,
+    X1      is X+(Seg2+Seg1)*cos(Rad90),
+    Y1      is Y+(Seg2+Seg1)*sin(Rad90),
+    X2      is X+(Seg2+Seg1)*cos(Rad90+Rad120),
+    Y2      is Y+(Seg2+Seg1)*sin(Rad90+Rad120),
+    X3      is X+(Seg2+Seg1)*cos(Rad90+Rad120*2),
+    Y3      is Y+(Seg2+Seg1)*sin(Rad90+Rad120*2),
+
+
+    setxy(X1,Y1),
+    original2Aux_C(N,Tam),
+
+    setxy(X2,Y2),
+    original2Aux_C(N,Tam),
+
+    setxy(X3,Y3),
+    original2Aux_C(N,Tam)
+    .
+
+
+original2Aux_C(N,Tam):-
+    Lvl    is N-1,
+    Seg    is Tam,
+    Seg2   is Tam/2,
+
+    get(@myturtle_class,x,X),
+    get(@myturtle_class,y,Y),
+
+
+    setpencolor(cyan),
+    original2Aux_C(0,Seg),
+    get(@myturtle_class,x,X_1),
+    get(@myturtle_class,y,Y_1),
+
+    setpencolor(white),
+    left(120),
+    original2Aux_C(0,Seg2),
+    setxy(X_1,Y_1),
+    left(120),
+    original2Aux_C(0,Seg2),
+
+    setxy(X,Y),
+
+    setpencolor(green),
+    original2Aux_C(0,Seg),
+    get(@myturtle_class,x,X_2),
+    get(@myturtle_class,y,Y_2),
+    left(120),
+
+    setpencolor(white),
+    original2Aux_C(0,Seg2),
+    setxy(X_2,Y_2),
+    left(120),
+    original2Aux_C(0,Seg2),
+
+    setxy(X,Y),
+
+    setpencolor(blue),
+    original2Aux_C(0,Seg),
+    get(@myturtle_class,x,X_3),
+    get(@myturtle_class,y,Y_3),
+    left(120),
+
+    setpencolor(white),
+    original2Aux_C(0,Seg2),
+    setxy(X_3,Y_3),
+    left(120),
+    original2Aux_C(0,Seg2),
+
+    original2Aux_C(Lvl,Seg,X,Y)
+    .
+
+original2_C(Lvl,Tam):-
+    Ys is (-(Tam*(Lvl+1))),
+    Xs is (Tam),
+    logo,setpencolor(white), setbgcolor(black),
+    penup, setxy(Xs,Ys),
+    original2Aux_C(Lvl,Tam),
+    hideturtle().
+/*_____________________________________________________*/
+
+
+original3Aux_M(0,Tam):-
+    pendown,
+    setpencolor(white),
+    forward(Tam),
+    penup.
+
+original3Aux_M(0,_,_,_).
+
+original3Aux_M(N,Tam,X,Y):-
+    Seg1     is Tam,
+    Seg2    is Tam/2,
+    Rad120  is 2.0944,
+    Rad90   is 1.5708,
+    X1      is X+(Seg2+Seg1)*cos(Rad90),
+    Y1      is Y+(Seg2+Seg1)*sin(Rad90),
+    X2      is X+(Seg2+Seg1)*cos(Rad90+Rad120),
+    Y2      is Y+(Seg2+Seg1)*sin(Rad90+Rad120),
+    X3      is X+(Seg2+Seg1)*cos(Rad90+Rad120*2),
+    Y3      is Y+(Seg2+Seg1)*sin(Rad90+Rad120*2),
+
+
+    setxy(X1,Y1),
+    original3Aux_M(N,Tam),
+
+    setxy(X2,Y2),
+    original3Aux_M(N,Tam),
+
+    setxy(X3,Y3),
+    original3Aux_M(N,Tam)
+    .
+
+original3Aux_M(N,Tam):-
+    Lvl    is N-1,
+    Seg    is Tam*(1/3),
+    Seg2   is Tam/3,
+
+    get(@myturtle_class,x,X),
+    get(@myturtle_class,y,Y),
+
+
+    setpencolor(white),
+    original3Aux_M(0,Seg),
+    get(@myturtle_class,x,X_1),
+    get(@myturtle_class,y,Y_1),
+
+    setpencolor(red),
+    left(120),
+    original3Aux_M(0,Seg2),
+    setxy(X_1,Y_1),
+    setpencolor(white),
+    left(120),
+    original3Aux_M(0,Seg2),
+
+    setxy(X,Y),
+
+    setpencolor(white),
+    original3Aux_M(0,Seg),
+    get(@myturtle_class,x,X_2),
+    get(@myturtle_class,y,Y_2),
+    left(120),
+
+    original3Aux_M(0,Seg2),
+    setxy(X_2,Y_2),
+    setpencolor(red),
+    left(120),
+    original3Aux_M(0,Seg2),
+
+    setxy(X,Y),
+
+    setpencolor(red),
+    original3Aux_M(0,Seg),
+    get(@myturtle_class,x,X_3),
+    get(@myturtle_class,y,Y_3),
+    left(120),
+
+    setpencolor(magenta),
+    original3Aux_M(0,Seg2),
+    setxy(X_3,Y_3),
+    left(120),
+    original3Aux_M(0,Seg2),
+
+    original3Aux_M(Lvl,Seg,X,Y)
+    .
+
+
+original3_M(Lvl,Tam):-
+    Ys is (-(Tam*0.7)),
+    Xs is (Tam),
+    logo,setpencolor(white), setbgcolor(black),
+    penup, setxy(Xs,Ys),
+    original3Aux_M(Lvl,Tam),
+    hideturtle().
+/*.......................*/
+
+original3Aux_S(0,Tam):-
+    pendown,
+    forward(Tam),
+    penup.
+
+original3Aux_S(0,_,_,_).
+
+original3Aux_S(N,Tam,X,Y):-
+    Seg1     is Tam,
+    Seg2    is Tam/2,
+    Rad120  is 2.0944,
+    Rad90   is 1.5708,
+    X1      is X+(Seg2+Seg1)*cos(Rad90),
+    Y1      is Y+(Seg2+Seg1)*sin(Rad90),
+    X2      is X+(Seg2+Seg1)*cos(Rad90+Rad120),
+    Y2      is Y+(Seg2+Seg1)*sin(Rad90+Rad120),
+    X3      is X+(Seg2+Seg1)*cos(Rad90+Rad120*2),
+    Y3      is Y+(Seg2+Seg1)*sin(Rad90+Rad120*2),
+
+
+    setxy(X1,Y1),
+    original3Aux_S(N,Tam),
+
+    setxy(X2,Y2),
+    original3Aux_S(N,Tam),
+
+    setxy(X3,Y3),
+    original3Aux_S(N,Tam)
+    .
+
+original3Aux_S(N,Tam):-
+    Lvl    is N-1,
+    Seg    is Tam*(1/3),
+    Seg2   is Tam/3,
+
+    get(@myturtle_class,x,X),
+    get(@myturtle_class,y,Y),
+
+
+    setpencolor(white),
+    original3Aux_S(0,Seg),
+    get(@myturtle_class,x,X_1),
+    get(@myturtle_class,y,Y_1),
+
+    setpencolor(red),
+    left(120),
+    original3Aux_S(0,Seg2),
+    setxy(X_1,Y_1),
+    setpencolor(white),
+    left(120),
+    original3Aux_S(0,Seg2),
+
+    setxy(X,Y),
+
+    setpencolor(white),
+    original3Aux_S(0,Seg),
+    get(@myturtle_class,x,X_2),
+    get(@myturtle_class,y,Y_2),
+    left(120),
+
+    original3Aux_S(0,Seg2),
+    setxy(X_2,Y_2),
+    setpencolor(red),
+    left(120),
+    original3Aux_S(0,Seg2),
+
+    setxy(X,Y),
+
+    setpencolor(red),
+    original3Aux_S(0,Seg),
+    get(@myturtle_class,x,X_3),
+    get(@myturtle_class,y,Y_3),
+    left(120),
+
+    setpencolor(magenta),
+    original3Aux_S(0,Seg2),
+    setxy(X_3,Y_3),
+    left(120),
+    original3Aux_S(0,Seg2),
+
+    original3Aux_S(Lvl,Seg,X,Y)
+    .
+
+
+original3_S(Lvl,Tam):-
+    Ys is (-(Tam*0.7)),
+    Xs is (Tam),
+    logo,setpencolor(white), setbgcolor(black),
+    penup, setxy(Xs,Ys),
+    original3Aux_S(Lvl,Tam),
+    hideturtle().
+
+/*.......................*/
+original3Aux_C(0,Tam):-
+    pendown,
+    random(1,7,Rand2),
+    colore(Rand2,Nomb2),
+    setpencolor(Nomb2),
+    forward(Tam),
+    penup.
+
+original3Aux_C(0,_,_,_).
+
+original3Aux_C(N,Tam,X,Y):-
+    Seg1     is Tam,
+    Seg2    is Tam/2,
+    Rad120  is 2.0944,
+    Rad90   is 1.5708,
+    X1      is X+(Seg2+Seg1)*cos(Rad90),
+    Y1      is Y+(Seg2+Seg1)*sin(Rad90),
+    X2      is X+(Seg2+Seg1)*cos(Rad90+Rad120),
+    Y2      is Y+(Seg2+Seg1)*sin(Rad90+Rad120),
+    X3      is X+(Seg2+Seg1)*cos(Rad90+Rad120*2),
+    Y3      is Y+(Seg2+Seg1)*sin(Rad90+Rad120*2),
+
+
+    setxy(X1,Y1),
+    original3Aux_C(N,Tam),
+
+    setxy(X2,Y2),
+    original3Aux_C(N,Tam),
+
+    setxy(X3,Y3),
+    original3Aux_C(N,Tam)
+    .
+
+original3Aux_C(N,Tam):-
+    Lvl    is N-1,
+    Seg    is Tam*(1/3),
+    Seg2   is Tam/3,
+
+    get(@myturtle_class,x,X),
+    get(@myturtle_class,y,Y),
+
+
+    setpencolor(white),
+    original3Aux_C(0,Seg),
+    get(@myturtle_class,x,X_1),
+    get(@myturtle_class,y,Y_1),
+
+    setpencolor(red),
+    left(120),
+    original3Aux_C(0,Seg2),
+    setxy(X_1,Y_1),
+    setpencolor(white),
+    left(120),
+    original3Aux_C(0,Seg2),
+
+    setxy(X,Y),
+
+    setpencolor(white),
+    original3Aux_C(0,Seg),
+    get(@myturtle_class,x,X_2),
+    get(@myturtle_class,y,Y_2),
+    left(120),
+
+    original3Aux_C(0,Seg2),
+    setxy(X_2,Y_2),
+    setpencolor(red),
+    left(120),
+    original3Aux_C(0,Seg2),
+
+    setxy(X,Y),
+
+    setpencolor(red),
+    original3Aux_C(0,Seg),
+    get(@myturtle_class,x,X_3),
+    get(@myturtle_class,y,Y_3),
+    left(120),
+
+    setpencolor(magenta),
+    original3Aux_C(0,Seg2),
+    setxy(X_3,Y_3),
+    left(120),
+    original3Aux_C(0,Seg2),
+
+    original3Aux_C(Lvl,Seg,X,Y)
+    .
+
+
+original3_C(Lvl,Tam):-
+    Ys is (-(Tam*0.7)),
+    Xs is (Tam),
+    logo,setpencolor(white), setbgcolor(black),
+    penup, setxy(Xs,Ys),
+    original3Aux_C(Lvl,Tam),
+    hideturtle().
+
+/*_____________________________________________________*/
 magia3Aux(0,Tam):-
     forward(Tam).
 

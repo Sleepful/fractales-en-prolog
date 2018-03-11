@@ -11,3 +11,5 @@ You can find screenshots of the fractals in
 Example fractals:
 
 ![alt text](https://github.com/Sleepful/fractales-en-prolog/blob/master/fractales-originales-Vargas-Jose/ramiel-Vargas-Jose.png?raw=true)
+
+![alt text](https://github.com/Sleepful/fractales-en-prolog/blob/master/fractales-originales-Vargas-Jose/tresde-Vargas-Jose.png?raw=true)

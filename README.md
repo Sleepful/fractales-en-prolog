@@ -1,6 +1,6 @@
 # Fractal pictures in prolog
 
-Impletend with the grafic library *Prologo*.
+Impletend with the graphic library *Prologo*.
 
 The main source file is `\Fractal-Vargas-Jose.pl`, at the end of this file you can find the code of a library called *ProLOGO* that implements turtle grafics for prolog.
 
